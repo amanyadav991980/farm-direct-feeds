@@ -8,6 +8,7 @@ export const ROLE_LABEL: Record<Role, string> = {
 
 /** Where a signed-in user lands after auth / from the header. */
 export function roleHome(role?: Role | null): string {
+  if (!role) return "/welcome";
   if (role === "farmer") return "/farmer";
   if (role === "admin") return "/admin";
   return "/buyer";
@@ -16,4 +17,10 @@ export function roleHome(role?: Role | null): string {
 export function roleHomeLabel(role?: Role | null): string {
   if (!role) return "Get started";
   return `${ROLE_LABEL[role]} dashboard`;
+}
+
+/** Short descriptor under the account name, e.g. "Buyer account". */
+export function roleAccountLabel(role?: Role | null): string {
+  if (!role) return "Choose your role to continue";
+  return `${ROLE_LABEL[role]} account`;
 }

@@ -1,55 +1,32 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
-import { LayoutDashboard, LogOut } from "lucide-react";
-import { useNavigate } from "react-router";
+import { roleHome } from "@/lib/role";
+import { Loader2 } from "lucide-react";
+import { Navigate, useLocation } from "react-router";
 
+/**
+ * Legacy /dashboard entry point. Users without a role go through onboarding;
+ * everyone else is routed to their role's workspace home.
+ */
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const { isLoading, isAuthenticated, user } = useAuth();
+  const location = useLocation();
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
+  if (isLoading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="size-6 animate-spin text-muted-foreground" />
+      </main>
+    );
+  }
 
-  return (
-    <main className="min-h-screen bg-background px-6 py-10 text-foreground">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-8">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Authenticated workspace
-            </p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight">
-              Welcome{user?.name ? `, ${user.name}` : ""}
-            </h1>
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            className="cursor-pointer gap-2 self-start"
-            onClick={handleSignOut}
-          >
-            <LogOut className="size-4" />
-            Sign out
-          </Button>
-        </header>
+  if (!isAuthenticated) {
+    const returnTo = `${location.pathname}${location.search}`;
+    return <Navigate to={`/auth?returnTo=${encodeURIComponent(returnTo)}`} replace />;
+  }
 
-        <Card className="border-border/70 shadow-none">
-          <CardHeader>
-            <div className="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <LayoutDashboard className="size-5" />
-            </div>
-            <CardTitle>Your dashboard is ready</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm leading-6 text-muted-foreground">
-            Replace this starter content with the product&apos;s authenticated
-            experience. The route is protected and sign-in returns here by
-            default.
-          </CardContent>
-        </Card>
-      </div>
-    </main>
-  );
+  if (!user?.role) {
+    return <Navigate to="/welcome?returnTo=%2Fdashboard" replace />;
+  }
+
+  return <Navigate to={roleHome(user.role)} replace />;
 }

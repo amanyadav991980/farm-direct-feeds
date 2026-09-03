@@ -43,7 +43,7 @@ const FILTERS = [
 
 export default function FarmerOrders() {
   const { user } = useAuth();
-  const orders = useQuery(api.orders.farmerOrders);
+  const orders = useQuery(api.orders.farmerOrders, {});
   const setStatus = useMutation(api.orders.setOrderStatus);
   const [filter, setFilter] = useState("all");
   const [busy, setBusy] = useState<string | null>(null);
@@ -195,8 +195,7 @@ export default function FarmerOrders() {
                   <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-dashed border-border pt-3 text-[13px] text-muted-foreground">
                     <span className="font-medium text-foreground/90">{o.buyerName}</span>
                     <span>
-                      {o.buyerAddress.village ? `${o.buyerAddress.city}, ${o.buyerAddress.state}` : o.buyerAddress.city},{" "}
-                      {o.buyerAddress.pincode}
+                      {o.buyerAddress.city}, {o.buyerAddress.state} — {o.buyerAddress.pincode}
                     </span>
                     <span>
                       {o.items.map((i) => `${fmtQty(i.qty)} ${i.unit} ${i.name}`).join(", ")}

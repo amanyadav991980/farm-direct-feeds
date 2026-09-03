@@ -14,9 +14,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
+import { BrandMark } from "@/components/site-header";
 import { useAuth } from "@/hooks/use-auth";
-import logo from "@/assets/logo.svg";
-import { ArrowRight, Loader2, Mail, UserX } from "lucide-react";
+import { ArrowRight, Leaf, Loader2, Mail, Sprout, UserX } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
@@ -120,19 +120,18 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
           {step === "signIn" ? (
             <>
               <CardHeader className="text-center">
-              <div className="flex justify-center">
-                    <img
-                      src={logo}
-                      alt="Lock Icon"
-                      width={64}
-                      height={64}
-                      className="rounded-lg mb-4 mt-4 cursor-pointer"
-                      onClick={() => navigate("/")}
-                    />
-                  </div>
-                <CardTitle className="text-xl">Get Started</CardTitle>
+                <button
+                  type="button"
+                  onClick={() => navigate("/")}
+                  className="mx-auto mb-4 mt-4 inline-flex cursor-pointer"
+                  aria-label="Farm Direct home"
+                >
+                  <BrandMark />
+                </button>
+                <CardTitle className="text-xl">Welcome to Farm Direct</CardTitle>
                 <CardDescription>
-                  Enter your email to log in or sign up
+                  Fresh produce from verified farms — sign in with your email
+                  and a one-time code
                 </CardDescription>
               </CardHeader>
               <form onSubmit={handleEmailSubmit}>
@@ -187,8 +186,13 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
                       disabled={isLoading}
                     >
                       <UserX className="mr-2 h-4 w-4" />
-                      Continue as Guest
+                      Explore the demo as a guest
                     </Button>
+                    <p className="mt-2.5 flex items-center justify-center gap-1.5 text-center text-[11px] leading-4 text-muted-foreground">
+                      <Sprout className="size-3.5 text-primary" />
+                      Guests can drive the buyer, farmer and admin workspaces —
+                      no email needed.
+                    </p>
                   </div>
                 </CardContent>
               </form>
@@ -278,15 +282,10 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
           )}
 
           <div className="py-4 px-6 text-xs text-center text-muted-foreground bg-muted border-t rounded-b-lg">
-            Secured by{" "}
-            <a
-              href="https://freebuff.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-primary transition-colors"
-            >
-              freebuff.com
-            </a>
+            <span className="inline-flex items-center gap-1.5">
+              <Leaf className="size-3.5 text-primary" />
+              Demo marketplace — no real payments, orders or reviews
+            </span>
           </div>
         </Card>
         </div>

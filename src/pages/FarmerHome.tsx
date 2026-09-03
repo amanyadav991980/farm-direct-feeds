@@ -37,7 +37,7 @@ export default function FarmerHome() {
   const { user } = useAuth();
   const farm = useQuery(api.farmers.myFarm);
   const stats = useQuery(api.analytics.farmerDashboardStats);
-  const orders = useQuery(api.orders.farmerOrders);
+  const orders = useQuery(api.orders.farmerOrders, {});
   const inquiries = useQuery(api.inquiries.farmInquiries);
   const lowStock = useQuery(api.insights.lowStockAlerts);
   const adjustStock = useMutation(api.products.adjustStock);

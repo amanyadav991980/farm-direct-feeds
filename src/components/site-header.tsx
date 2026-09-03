@@ -55,11 +55,10 @@ export function SiteHeader() {
     navigate("/");
   };
 
-  const navLink = (to: string, label: string, end = false) => (
+  const navLink = (to: string, label: string) => (
     <Link
       key={to + label}
       to={to}
-      end={end}
       className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground ${
         location.pathname === to ? "text-primary" : "text-muted-foreground"
       }`}

@@ -131,15 +131,20 @@ export default function Welcome() {
     if (!authLoading && isAuthenticated && user?.name) setName(user.name);
   }, [authLoading, isAuthenticated, user?.name]);
 
+  const safeReturn = (role: Role) =>
+    returnTo?.startsWith("/") &&
+    !returnTo.startsWith("//") &&
+    returnTo !== "/" &&
+    !returnTo.startsWith("/welcome")
+      ? returnTo
+      : roleHome(role);
+
   useEffect(() => {
     if (authLoading || !isAuthenticated) return;
     if (user?.role && user.onboardedAt) {
-      const dest =
-        returnTo?.startsWith("/") && !returnTo.startsWith("//") && returnTo !== "/"
-          ? returnTo
-          : roleHome(user.role);
-      navigate(dest, { replace: true });
+      navigate(safeReturn(user.role), { replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, isAuthenticated, user?.role, user?.onboardedAt, returnTo, navigate]);
 
   const choices = useMemo(
@@ -150,12 +155,7 @@ export default function Welcome() {
     [user?.isAnonymous],
   );
 
-  const destination = () => {
-    if (returnTo?.startsWith("/") && !returnTo.startsWith("//") && returnTo !== "/") {
-      return returnTo;
-    }
-    return roleHome(role);
-  };
+  const destination = () => safeReturn(role);
 
   const submit = async () => {
     setError(null);
@@ -228,6 +228,14 @@ export default function Welcome() {
             Go to sign in <ArrowRight className="size-4" />
           </Button>
         </div>
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="size-6 animate-spin text-muted-foreground" />
       </main>
     );
   }

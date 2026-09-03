@@ -126,7 +126,7 @@ export const completeOnboarding = mutation({
         phone: args.phone?.trim(),
         bio:
           args.bio?.trim() ||
-          `New farmer on Farmdirect selling fresh, farm-gate produce.`,
+          `New farm on Farm Direct selling fresh, farm-gate produce.`,
         yearsFarming: args.yearsFarming ?? 4,
       };
 

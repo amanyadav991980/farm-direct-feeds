@@ -42,7 +42,7 @@ export default function FarmerInquiries() {
     }
   };
 
-  const renderList = (items: typeof inquiries, emptyBody: string) => {
+  const renderList = (items: typeof inquiries) => {
     const list = items ?? [];
     if (list.length === 0) return null;
     return (
@@ -132,7 +132,7 @@ export default function FarmerInquiries() {
                   All caught up — new buyer questions land here instantly.
                 </p>
               ) : (
-                renderList(open, "")
+                renderList(open)
               )}
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function FarmerInquiries() {
               <h2 className="flex items-center gap-2 text-[15px] font-bold text-muted-foreground">
                 <CheckCircle2 className="size-4.5" /> Handled earlier
               </h2>
-              <div className="mt-4">{renderList(closed, "")}</div>
+              <div className="mt-4">{renderList(closed)}</div>
             </div>
           )}
         </div>

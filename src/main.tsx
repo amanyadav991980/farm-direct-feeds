@@ -1,6 +1,7 @@
 import '@vly-ai/integrations';
 import { Toaster } from "@/components/ui/sonner";
 import { RequireAuth } from "@/components/RequireAuth";
+import { RequireRole } from "@/components/RequireRole";
 import { VlyToolbar } from "../vly-toolbar-readonly.tsx";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
@@ -14,6 +15,25 @@ const Landing = lazy(() => import("./pages/Landing.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const Market = lazy(() => import("./pages/Market.tsx"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
+const FarmerPublic = lazy(() => import("./pages/FarmerPublic.tsx"));
+const Welcome = lazy(() => import("./pages/Welcome.tsx"));
+const BuyerHome = lazy(() => import("./pages/BuyerHome.tsx"));
+const CartPage = lazy(() => import("./pages/CartPage.tsx"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage.tsx"));
+const BuyerOrders = lazy(() => import("./pages/BuyerOrders.tsx"));
+const MessagesPage = lazy(() => import("./pages/MessagesPage.tsx"));
+const OrderDetail = lazy(() => import("./pages/OrderDetail.tsx"));
+const NotificationsPage = lazy(() => import("./pages/NotificationsPage.tsx"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage.tsx"));
+const FarmerHome = lazy(() => import("./pages/FarmerHome.tsx"));
+const FarmerProducts = lazy(() => import("./pages/FarmerProducts.tsx"));
+const FarmerProductEdit = lazy(() => import("./pages/FarmerProductEdit.tsx"));
+const FarmerOrders = lazy(() => import("./pages/FarmerOrders.tsx"));
+const FarmerInquiries = lazy(() => import("./pages/FarmerInquiries.tsx"));
+const FarmerInsights = lazy(() => import("./pages/FarmerInsights.tsx"));
+const AdminHome = lazy(() => import("./pages/AdminHome.tsx"));
 
 // Simple loading fallback for route transitions
 function RouteLoading() {
@@ -124,6 +144,21 @@ createRoot(document.getElementById("root")!).render(
                 path="/auth"
                 element={<AuthPage redirectAfterAuth="/dashboard" />}
               />
+
+              {/* Public marketplace */}
+              <Route path="/fresh" element={<Market />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/farmer/:farmerId" element={<FarmerPublic />} />
+
+              {/* Onboarding + auth hub */}
+              <Route
+                path="/welcome"
+                element={
+                  <RequireAuth>
+                    <Welcome />
+                  </RequireAuth>
+                }
+              />
               <Route
                 path="/dashboard"
                 element={
@@ -132,6 +167,145 @@ createRoot(document.getElementById("root")!).render(
                   </RequireAuth>
                 }
               />
+
+              {/* Buyer workspace */}
+              <Route
+                path="/buyer"
+                element={
+                  <RequireRole roles={["buyer"]}>
+                    <BuyerHome />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/buyer/orders"
+                element={
+                  <RequireRole roles={["buyer"]}>
+                    <BuyerOrders />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/buyer/messages"
+                element={
+                  <RequireRole roles={["buyer"]}>
+                    <MessagesPage />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <RequireRole roles={["buyer"]}>
+                    <CartPage />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <RequireRole roles={["buyer"]}>
+                    <CheckoutPage />
+                  </RequireRole>
+                }
+              />
+
+              {/* Order tracking (buyer, farmer and admin perspectives) */}
+              <Route
+                path="/orders/:orderId"
+                element={
+                  <RequireRole>
+                    <OrderDetail />
+                  </RequireRole>
+                }
+              />
+
+              {/* Farmer workspace */}
+              <Route
+                path="/farmer"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerHome />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/products"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerProducts />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/product/new"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerProductEdit />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/product/:productId"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerProductEdit />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/orders"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerOrders />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/inquiries"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerInquiries />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/farmer/insights"
+                element={
+                  <RequireRole roles={["farmer"]}>
+                    <FarmerInsights />
+                  </RequireRole>
+                }
+              />
+
+              {/* Admin workspace */}
+              <Route
+                path="/admin"
+                element={
+                  <RequireRole roles={["admin"]}>
+                    <AdminHome />
+                  </RequireRole>
+                }
+              />
+
+              {/* Shared account pages */}
+              <Route
+                path="/notifications"
+                element={
+                  <RequireRole>
+                    <NotificationsPage />
+                  </RequireRole>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <RequireRole>
+                    <SettingsPage />
+                  </RequireRole>
+                }
+              />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -1,1 +1,0 @@
-import{u as o,a as t,d as u}from"./index-BQ3kZ0Ex.js";import{r as d}from"./react-vendor-CHoWecKq.js";let r=!1;function f(){const e=o(t.crops.marketStatus),s=u(t.ensureSeeded.ensureSeeded);return d.useEffect(()=>{!e||r||e.farmers===0&&e.crops===0&&(r=!0,s().catch(a=>{r=!1,console.error("Demo seeding failed",a)}))},[e,s]),e}export{f as u};

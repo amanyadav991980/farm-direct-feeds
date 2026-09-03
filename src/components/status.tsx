@@ -21,7 +21,7 @@ export function TonePill({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 border px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em]",
+        "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.08em]",
         TONES[tone],
         className,
       )}

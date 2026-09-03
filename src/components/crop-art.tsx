@@ -3,10 +3,9 @@ import { cn } from "@/lib/utils";
 import { TINTS } from "@/lib/format";
 
 /**
- * Product/crop visual. Every crop in the catalogue renders its own plate: a
- * tinted terminal-grid panel with the crop glyph. When a real photo is
- * attached (imageUrl) the tile upgrades to the photo and falls back to the
- * plate if it ever fails to load.
+ * Product/crop visual. Every crop in the catalogue renders on a soft tinted
+ * plate with a delicate plot-grid; when a real photo is attached (imageUrl)
+ * the tile upgrades to the photo and falls back to the plate on load error.
  */
 export function CropArt({
   emoji,
@@ -42,22 +41,19 @@ export function CropArt({
 
   return (
     <div
-      className={cn(
-        "relative overflow-hidden fd-grid",
-        className,
-      )}
+      className={cn("relative overflow-hidden fd-grid", className)}
       style={{ backgroundColor: t.bg }}
       aria-label={name}
     >
-      <div className="fd-scan absolute inset-0" />
       <div
-        className="absolute right-1.5 top-1.5 select-none font-mono text-[9px] uppercase tracking-[0.18em]"
-        style={{ color: "rgba(35,38,31,0.55)", border: `1px solid ${t.border}` }}
+        className="pointer-events-none absolute right-2 top-2 rounded-sm px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.16em]"
+        style={{
+          color: "rgba(35,38,31,0.6)",
+          border: `1px solid ${t.border}`,
+          backgroundColor: "rgba(255,255,255,0.55)",
+        }}
       >
-        &nbsp;{name.slice(0, 14)}&nbsp;
-      </div>
-      <div className="absolute bottom-1.5 left-2 select-none font-mono text-[9px] tracking-[0.2em] text-black/25">
-        ▚▚ crop-{Math.abs(tint) % 16}
+        {name.slice(0, 16)}
       </div>
       <div
         className={cn(
@@ -65,7 +61,7 @@ export function CropArt({
           glyphClassName,
         )}
       >
-        <span className="select-none leading-none drop-shadow-[0_1px_0_rgba(255,255,255,0.7)]">
+        <span className="select-none leading-none drop-shadow-[0_1px_0_rgba(255,255,255,0.75)]">
           {emoji}
         </span>
       </div>

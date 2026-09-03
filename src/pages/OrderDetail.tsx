@@ -298,9 +298,13 @@ export default function OrderDetail() {
               <ul className="divide-y divide-dashed divide-border">
                 {order.items.map((it) => (
                   <li key={it.productId} className="flex items-center gap-4 px-5 py-3.5">
-                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-xl">
-                      {it.emoji}
-                    </span>
+                    <CropArt
+                      emoji={it.emoji}
+                      tint={0}
+                      name={it.name}
+                      className="size-12 shrink-0 rounded-xl"
+                      glyphClassName="text-xl"
+                    />
                     <div className="min-w-0 flex-1">
                       <p className="text-[14px] font-semibold">{it.name}</p>
                       <p className="text-xs text-muted-foreground">

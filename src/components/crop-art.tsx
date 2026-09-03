@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { TINTS } from "@/lib/format";
+import { cropImage } from "@/lib/crop-images";
 
 /**
- * Product/crop visual. Every crop in the catalogue renders on a soft tinted
- * plate with a delicate plot-grid; when a real photo is attached (imageUrl)
- * the tile upgrades to the photo and falls back to the plate on load error.
+ * Product/crop visual. Real produce photography is preferred: a listing's own
+ * upload (imageUrl) wins, then the curated catalogue photo for the crop name
+ * (see lib/crop-images). If neither is available or a photo fails to load,
+ * the tile falls back to a soft tinted plate with a delicate plot-grid.
  */
 export function CropArt({
   emoji,
@@ -24,12 +26,13 @@ export function CropArt({
 }) {
   const [failed, setFailed] = useState(false);
   const t = TINTS[Math.abs(tint ?? 0) % TINTS.length];
+  const photo = imageUrl ?? cropImage(name) ?? "";
 
-  if (imageUrl && !failed) {
+  if (photo && !failed) {
     return (
-      <div className={cn("relative overflow-hidden", className)}>
+      <div className={cn("relative overflow-hidden bg-muted", className)}>
         <img
-          src={imageUrl}
+          src={photo}
           alt={name}
           loading="lazy"
           onError={() => setFailed(true)}

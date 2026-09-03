@@ -78,6 +78,7 @@ export function SiteHeader() {
           {navLink("/fresh", "Fresh market")}
           {navLink("/#how", "How it works")}
           {navLink("/#farmers", "For farmers")}
+          {navLink("/assistant", "Ask AI")}
         </nav>
 
         <form
@@ -176,6 +177,9 @@ export function SiteHeader() {
                       My listings
                     </DropdownMenuItem>
                   )}
+                  <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/assistant")}>
+                    Ask the assistant
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="cursor-pointer text-destructive focus:text-destructive"
@@ -230,6 +234,7 @@ export function SiteHeader() {
               { to: "/fresh", label: "Fresh market" },
               { to: "/#how", label: "How it works" },
               { to: "/#farmers", label: "For farmers" },
+              { to: "/assistant", label: "Ask the AI assistant" },
             ].map((l) => (
               <Link
                 key={l.to}

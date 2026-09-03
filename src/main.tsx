@@ -12,6 +12,7 @@ import "./index.css";
 
 // Lazy load route components for better code splitting
 const Landing = lazy(() => import("./pages/Landing.tsx"));
+const AssistantPage = lazy(() => import("./pages/Assistant.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
@@ -145,7 +146,8 @@ createRoot(document.getElementById("root")!).render(
                 element={<AuthPage redirectAfterAuth="/dashboard" />}
               />
 
-              {/* Public marketplace */}
+              {/* Public marketplace + AI assistant */}
+              <Route path="/assistant" element={<AssistantPage />} />
               <Route path="/fresh" element={<Market />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/farmer/:farmerId" element={<FarmerPublic />} />

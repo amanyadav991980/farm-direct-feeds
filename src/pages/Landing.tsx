@@ -11,9 +11,12 @@ import {
   ArrowRight,
   Banknote,
   BadgeCheck,
+  Bot,
   CalendarClock,
   Leaf,
+  Mail,
   MapPin,
+  Phone,
   Search,
   ShieldCheck,
   ShoppingBasket,
@@ -22,6 +25,11 @@ import {
   Store,
   Truck,
 } from "lucide-react";
+import {
+  SUPPORT_EMAIL,
+  SUPPORT_PHONE_DISPLAY,
+  SUPPORT_PHONE_HREF,
+} from "@/lib/support";
 import { Link, useNavigate } from "react-router";
 
 const CATEGORIES = [
@@ -487,10 +495,69 @@ export default function Landing() {
               </div>
             </div>
           </div>
-          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-border/70 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-            <p>© {new Date().getFullYear()} Farm Direct. A full-stack demo of an agricultural marketplace.</p>
-            <p className="inline-flex items-center gap-1.5">
-              <BadgeCheck className="size-3.5 text-primary" /> Built on Convex — live data, not mock-ups
+          {/* Support band — assistant + direct human contact */}
+          <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-2xl border border-primary/25 bg-primary/[0.04] px-6 py-5 lg:flex-row lg:items-center">
+            <div className="flex items-start gap-4">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+                <Bot className="size-6" />
+              </span>
+              <div>
+                <p className="text-[16px] font-bold">
+                  Have a doubt? Ask the assistant — or reach us directly
+                </p>
+                <p className="mt-1 max-w-xl text-[13px] leading-6 text-muted-foreground">
+                  Farmers and buyers can ask any question in Hindi or English.
+                  For anything the assistant can&apos;t fix, the Farm Direct team
+                  is one call or email away.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" className="gap-2" asChild>
+                <Link to="/assistant">
+                  <Bot className="size-4" /> Ask the AI assistant
+                </Link>
+              </Button>
+              <Button variant="outline" className="gap-2" asChild>
+                <a href={`mailto:${SUPPORT_EMAIL}`}>
+                  <Mail className="size-4" /> Email support
+                </a>
+              </Button>
+              <Button className="gap-2" asChild>
+                <a href={SUPPORT_PHONE_HREF}>
+                  <Phone className="size-4" /> Call us
+                </a>
+              </Button>
+            </div>
+          </div>
+          <div className="mt-8 flex flex-col gap-3 border-t border-border/70 pt-6 text-xs text-muted-foreground lg:flex-row lg:items-center lg:justify-between">
+            <p>
+              © {new Date().getFullYear()} Farm Direct. A full-stack demo of an
+              agricultural marketplace.
+            </p>
+            <p className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="inline-flex items-center gap-1.5">
+                <Mail className="size-3.5 text-primary" />
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="text-foreground/80 hover:text-primary"
+                >
+                  {SUPPORT_EMAIL}
+                </a>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Phone className="size-3.5 text-primary" />
+                <a
+                  href={SUPPORT_PHONE_HREF}
+                  className="text-foreground/80 hover:text-primary"
+                >
+                  {SUPPORT_PHONE_DISPLAY}
+                </a>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <BadgeCheck className="size-3.5 text-primary" /> Built on Convex —
+                live data, not mock-ups
+              </span>
             </p>
           </div>
         </Container>

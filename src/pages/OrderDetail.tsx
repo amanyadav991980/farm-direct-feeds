@@ -157,6 +157,15 @@ export default function OrderDetail() {
         ? order.status === "placed"
         : order.status === "placed" || order.status === "confirmed";
 
+  // Which states each actor may cancel from — must mirror the server rules.
+  const cancelFrom: string[] =
+    perspective === "buyer"
+      ? ["placed"]
+      : perspective === "farmer" || perspective === "admin"
+        ? ["placed", "confirmed"]
+        : [];
+  const canCancel = cancelFrom.includes(order.status);
+
   const itemUnits = order.items.reduce((s, i) => s + i.qty, 0);
 
   return (
@@ -232,31 +241,42 @@ export default function OrderDetail() {
                   Mark delivered
                 </Button>
               )}
-              {(order.status === "placed" || order.status === "confirmed") &&
-                (perspective === "buyer" || perspective === "farmer" || perspective === "admin") && (
-                  <Button
-                    variant={confirmCancel ? "destructive" : "outline"}
-                    className="gap-1.5 text-destructive hover:text-destructive"
-                    disabled={busy === "cancelled"}
-                    onClick={() => {
-                      if (!confirmCancel) {
-                        setConfirmCancel(true);
-                        return;
-                      }
-                      void doSetStatus("cancelled", "cancelled — stock has been returned to the listing");
-                    }}
-                  >
-                    {busy === "cancelled" ? (
-                      <Loader2 className="size-4 animate-spin" />
-                    ) : (
-                      <XCircle className="size-4" />
-                    )}
-                    {confirmCancel ? "Tap again to cancel" : "Cancel order"}
-                  </Button>
-                )}
+              {canCancel && (
+                <Button
+                  variant={confirmCancel ? "destructive" : "outline"}
+                  className="gap-1.5 text-destructive hover:text-destructive"
+                  disabled={busy === "cancelled"}
+                  onClick={() => {
+                    if (!confirmCancel) {
+                      setConfirmCancel(true);
+                      return;
+                    }
+                    void doSetStatus("cancelled", "cancelled — stock has been returned to the listing");
+                  }}
+                >
+                  {busy === "cancelled" ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <XCircle className="size-4" />
+                  )}
+                  {confirmCancel ? "Tap again to cancel" : "Cancel order"}
+                </Button>
+              )}
             </div>
           )}
         </div>
+
+        {perspective === "buyer" &&
+          (order.status === "confirmed" || order.status === "out_for_delivery") && (
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-primary/25 bg-primary/[0.05] px-4 py-3.5 text-[13px] leading-6 text-muted-foreground">
+              <Truck className="mt-0.5 size-4.5 shrink-0 text-primary" />
+              <p>
+                {order.status === "out_for_delivery"
+                  ? "Your produce is on the road — the farm has handed the lot to delivery and you will see it marked delivered on arrival."
+                  : "The farm accepted your order and is packing your produce. It moves to out-for-delivery once dispatched."}
+              </p>
+            </div>
+          )}
 
         <div className="mt-8 grid items-start gap-8 lg:grid-cols-[1fr_360px]">
           <div className="space-y-6">

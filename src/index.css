@@ -1,0 +1,162 @@
+/* Farmdirect — light Terminal theme.
+   Monospace typography on warm off-white paper, restrained green + amber
+   status accents, thin borders, squared corners, no dark palette. */
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, "Liberation Mono", monospace;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, "Liberation Mono", monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ── light terminal palette (default). Dark values stay defined but the app
+      ships light-first; nothing toggles .dark at runtime. */
+:root {
+  color-scheme: light;
+  --radius: 0.5rem;
+  --background: #f6f4ec; /* warm off-white paper */
+  --foreground: #23261f; /* ink */
+  --card: #fdfcf7;
+  --card-foreground: #23261f;
+  --popover: #fdfcf7;
+  --popover-foreground: #23261f;
+  --primary: #1f6b3d; /* terminal green */
+  --primary-foreground: #f4f7ef;
+  --secondary: #e9e6da;
+  --secondary-foreground: #33382c;
+  --muted: #eeebe0;
+  --muted-foreground: #686c5e;
+  --accent: #e3efe2;
+  --accent-foreground: #1d4527;
+  --destructive: #b42318;
+  --border: #d9d5c6;
+  --input: #d9d5c6;
+  --ring: #5d8a63;
+  --chart-1: #1f6b3d;
+  --chart-2: #c08a1e; /* amber */
+  --chart-3: #7fa06b;
+  --chart-4: #d9c15c;
+  --chart-5: #55705e;
+  --sidebar: #f1eee3;
+  --sidebar-foreground: #33382c;
+  --sidebar-primary: #1f6b3d;
+  --sidebar-primary-foreground: #f4f7ef;
+  --sidebar-accent: #e3efe2;
+  --sidebar-accent-foreground: #1d4527;
+  --sidebar-border: #ddd8c8;
+  --sidebar-ring: #5d8a63;
+}
+
+.dark {
+  --background: #1a1c17;
+  --foreground: #e9e6da;
+  --card: #22251d;
+  --card-foreground: #e9e6da;
+  --popover: #22251d;
+  --popover-foreground: #e9e6da;
+  --primary: #6fae7f;
+  --primary-foreground: #171b12;
+  --secondary: #2c2f26;
+  --secondary-foreground: #e9e6da;
+  --muted: #2c2f26;
+  --muted-foreground: #9aa086;
+  --accent: #2c3a2a;
+  --accent-foreground: #cfe6c8;
+  --destructive: #d0564c;
+  --border: #3a3d31;
+  --input: #3a3d31;
+  --ring: #6fae7f;
+  --chart-1: #6fae7f;
+  --chart-2: #d9b45a;
+  --chart-3: #8fb996;
+  --chart-4: #cbd17c;
+  --chart-5: #9aa086;
+  --sidebar: #1f221a;
+  --sidebar-foreground: #e9e6da;
+  --sidebar-primary: #6fae7f;
+  --sidebar-primary-foreground: #171b12;
+  --sidebar-accent: #2c3a2a;
+  --sidebar-accent-foreground: #cfe6c8;
+  --sidebar-border: #383b2f;
+  --sidebar-ring: #6fae7f;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "tnum" 1;
+  }
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  /* faint plot-grid backdrop used behind terminal-style panels */
+  .fd-grid {
+    background-image:
+      linear-gradient(to right, rgb(31 107 61 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(31 107 61 / 0.045) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+  .fd-scan {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgb(35 38 31 / 0.022) 0 1px,
+      transparent 1px 4px
+    );
+  }
+  .fd-caret::after {
+    content: "▍";
+    color: var(--primary);
+    animation: fd-blink 1.1s steps(1) infinite;
+  }
+  @keyframes fd-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
